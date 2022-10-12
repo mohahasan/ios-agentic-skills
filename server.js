@@ -44,6 +44,55 @@ app.use(express.json())
 
 //another middle waye user exit 
 
+async function checkuserAuth(phone, uuid, access_token) {
+  require('@supabase/supabase-js');
+  if (!phone || !uuid || !access_token) return false;
+
+  const {
+    GoTrueClient
+  } = require('@supabase/gotrue-js');
+
+
+
+  // const supabase =require('../database/supabase');
+
+  const auth = new GoTrueClient({
+
+    url: `${process.env.SUPABASE_URL}/auth/v1`,
+    headers: {
+      accept: 'json',
+      apikey: process.env.SUPABASE_ANON_KEY,
+    },
+    // cookieOptions: { path: '/', name: 'meowncookie',  }, // Optional
+  });
+
+  const supabaseAuth = {
+    auth
+  };
+
+
+  const userData = await supabaseAuth.auth.api.getUser(access_token);
+
+
+
+
+
+  if (userData.user != null && userData.error == null) {
+
+    var userPhone = userData.user.phone;
+    var userUid = userData.user.id;
+    if (uuid == userUid && phone == userPhone) {
+      return true;
+    } else {
+      return false;
+    }
+
+
+  } else {}
+
+}
+
+
 async function checkUserDatabaseExist (req,res,next) {
   var phone=req.body.phone;
   var uuid=req.body.uuid;
