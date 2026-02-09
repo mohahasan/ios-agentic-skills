@@ -63,7 +63,7 @@ async function merchant_withdraw_find(websessionId,setCookie, userPhone,amount ,
   async function merchant_withdraw(websessionId,setCookie, phone, name,amount ,ip_addressTrans,app_versionTrans,device_kindTrans,device_modelTrans, device_versionTrans,isHormuud){
    var  globalUserPhone=phone;
     var userData =
-    await Supbase.from('tufaax_users').select().eq('phone_number', phone);
+    await Supbase.from('newsome_users').select().eq('phone_number', phone);
   
 var userDataError = userData.error;
 if(
